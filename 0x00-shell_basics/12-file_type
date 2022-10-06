@@ -1,2 +1,2 @@
 #!/bin/bash
-touch /tmp/1amafile
+file /tmp/1amafile
