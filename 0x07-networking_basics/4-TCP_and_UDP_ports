@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# A Bash script that displays listening ports
 Active Internet connections (only servers)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
 tcp        0      0 *:sunrpc                *:*                     LISTEN      518/rpcbind
