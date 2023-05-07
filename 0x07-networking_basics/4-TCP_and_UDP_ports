@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 *:sunrpc                *:*                     LISTEN      518/rpcbind
+tcp        0      0 *:ssh                   *:*                     LISTEN      1240/sshd
+tcp        0      0 *:32938                 *:*                     LISTEN      547/rpc.statd
+tcp6       0      0 [::]:sunrpc             [::]:*                  LISTEN      518/rpcbind
+tcp6       0      0 [::]:ssh                [::]:*                  LISTEN      1240/sshd
+tcp6       0      0 [::]:33737              [::]:*                  LISTEN      547/rpc.statd
+udp        0      0 *:sunrpc                *:*                                 518/rpcbind
+udp        0      0 *:691                   *:*                                 518/rpcbind
+udp        0      0 localhost:723           *:*                                 547/rpc.statd
+udp        0      0 *:60129                 *:*                                 547/rpc.statd
+udp        0      0 *:3845                  *:*                                 562/dhclient
+udp        0      0 *:bootpc                *:*                                 562/dhclient
+udp6       0      0 [::]:47444              [::]:*                              547/rpc.statd
+udp6       0      0 [::]:sunrpc             [::]:*                              518/rpcbind
+udp6       0      0 [::]:50038              [::]:*                              562/dhclient
+udp6       0      0 [::]:691                [::]:*                              518/rpcbind
+Active UNIX domain sockets (only servers)
+Proto RefCnt Flags       Type       State         I-Node   PID/Program name    Path
+unix  2      [ ACC ]     STREAM     LISTENING     7724     518/rpcbind         /run/rpcbind.sock
+unix  2      [ ACC ]     STREAM     LISTENING     6525     1/init              @/com/ubuntu/upstart
+unix  2      [ ACC ]     STREAM     LISTENING     8559     835/dbus-daemon     /var/run/dbus/system_bus_socket
+unix  2      [ ACC ]     STREAM     LISTENING     9190     1087/acpid          /var/run/acpid.socket
+unix  2      [ ACC ]     SEQPACKET  LISTENING     7156     378/systemd-udevd   /run/udev/control
