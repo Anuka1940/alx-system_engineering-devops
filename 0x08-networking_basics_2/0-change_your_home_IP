@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# change Localhost to 127.0.0.2
+echo "127.0.0.2 localhost" | sudo tee -a /etc/hosts
+#Resolve facebook.com to 8.8.8.8
+echo "namesaver 8.8.8.8" | sudo tee /etc/resolv.conf
+echo "8.8.8.8 facebook.com" | sudo tee -a /etc/hosts
