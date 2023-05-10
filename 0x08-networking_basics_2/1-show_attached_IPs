@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#optain the network interface information
+ip_output=$(ip addr)
+
+#Get the IPv4 addresses
+ipv4_addresses=$(echo "$ip_output" | grep -Eo 'inet [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | awk '{print $2}')
+
+#Display the active IPv4 addresses
+echo "$ipv4_addresses"
