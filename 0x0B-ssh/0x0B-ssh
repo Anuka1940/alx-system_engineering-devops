@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#Add a new SSH public key
+
 ssh ubuntu@54.160.93.171 -i ~/.ssh/school
 mkdir -p ~/.ssh && touch ~/.ssh/authorized_keys
 chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys
