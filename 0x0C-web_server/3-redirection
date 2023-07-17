@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#install nginx and configure it
+#Configure Nginx to listen on port 80
+sudo apt-get -y install nginx
+sudo service nginx star
+sudo sed -i 's|location / {|location / {\n    return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;|' /etc/nginx/sites-available/default
+sudo service nginx restart
+echo "Hello World!" | sudo tee /var/www/html/index.html
