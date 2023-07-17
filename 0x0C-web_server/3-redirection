@@ -1,11 +1,30 @@
 #!/usr/bin/env bash
-#install nginx and configure it
-#Configure Nginx to listen on port 80
-sudo apt-get -y install nginx
-ufw allow 'Nginx HTTP'
-echo "Hello World!" | sudo tee /var/www/html/index.html
-sudo chwon -R $USER:$USER /var/www/html
-sudo chmod -R 755 /var/www
 
-sed -i '37i\rewrite ^/redirect_me  https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
-service nginx restart
+# Step 1: Install Nginx web server (if not already installed)
+sudo apt update
+sudo apt install nginx -y
+
+# Step 2: Create a custom Nginx configuration file for the redirection
+sudo tee /etc/nginx/sites-available/redirect_me << EOF
+server {
+    listen 80;
+    server_name _;
+
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+
+    # Add your other server configurations here if needed
+
+}
+EOF
+
+# Step 3: Enable the custom configuration and disable the default Nginx configuration
+sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
+sudo rm /etc/nginx/sites-enabled/default
+
+# Step 4: Test the Nginx configuration for syntax errors
+sudo nginx -t
+
+# Step 5: Restart Nginx to apply the changes
+sudo service nginx restart
