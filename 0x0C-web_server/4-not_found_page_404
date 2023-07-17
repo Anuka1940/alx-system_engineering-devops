@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Step 1: Install Nginx web server (if not already installed)
+sudo apt update
+sudo apt install nginx -y
+
+# Step 2: Create a custom Nginx configuration file for the redirection
+sudo tee /etc/nginx/sites-available/redirect_me << EOF
+server {
+    listen 80;
+    server_name _;
+
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+
+    # Add your other server configurations here if needed
+
+}
+EOF
+
+# Step 3: Enable the custom configuration and disable the default Nginx configuration
+sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
+sudo rm /etc/nginx/sites-enabled/default
+
+# Step 4: Create the custom 404 page
+sudo tee /usr/share/nginx/html/404.html << EOF
+<!DOCTYPE html>
+<html>
+<head>
+    <title>404 Not Found</title>
+</head>
+<body>
+    <h1>404 Not Found</h1>
+    <p>Ceci n'est pas une page</p>
+</body>
+</html>
+EOF
+# step 5: Configure Nginx to use the custom 404 page
+sudo sed -i 's/server_name _;/&\n\nerror_page 404 \/404.html;\n\nlocation = \/404.html {\n    internal;\n}\n/' /etc/nginx/sites-available/redirect_me
+
+# Step 6: Test the Nginx configuration for syntax errors
+sudo nginx -t
+
+# Step 7: Restart Nginx to apply the changes
+sudo service nginx restart
