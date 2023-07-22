@@ -9,7 +9,7 @@ get_subdomain_info() {
 }
 for subdomain in "www" "lb-01" "web-01" "web-02"
 do
-	if [ -z "$2" ] || [ "$2" == "$subdoamin" ] ;
+	if [ -z "$2" ] || [ "$2" == "$subdomain" ] ;
 	then
 		get_subdomain_info "$1" "$subdomain"
 	fi
