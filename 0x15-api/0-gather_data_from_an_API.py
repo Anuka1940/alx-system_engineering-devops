@@ -4,7 +4,7 @@ import requests
 import sys
 
 
-def get_employee_todo(Employee_id):
+def get_employee_todo(employee_id):
     """funtion to get employee to do list """
     base_url = "https://jsonplaceholder.typicode.com"
     employee_endpoint = f"{base_url}/users/{employee_id}"
@@ -13,11 +13,11 @@ def get_employee_todo(Employee_id):
     if response.status_code != 200:
         print("Error: Employee ID not found or API request failed.")
         return
-    Employee_data = response.json()
-    name = Employee_data["name"]
+    employee_data = response.json()
+    name = employee_data["name"]
 
-    tode_endpoint = f"{base_url}/todos?userId={employee_id}"
-    response = requests.get(tode_endpoint)
+    todo_endpoint = f"{base_url}/todos?userId={employee_id}"
+    response = requests.get(todo_endpoint)
 
     if response.status_code != 200:
         print("Error: TODO list not found or API request failed.")
