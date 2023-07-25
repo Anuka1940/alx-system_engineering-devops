@@ -3,7 +3,9 @@
 import requests
 import sys
 
+
 def get_employee_todo(Employee_id):
+    """funtion to get employee to do list """
     base_url = "https://jsonplaceholder.typicode.com"
     employee_endpoint = f"{base_url}/users/{employee_id}"
     response = requests.get(employee_endpoint)
@@ -12,22 +14,24 @@ def get_employee_todo(Employee_id):
         print("Error: Employee ID not found or API request failed.")
         return
     Employee_data = response.json()
-    employee_name = Employee_data["name"]
+    name = Employee_data["name"]
 
     tode_endpoint = f"{base_url}/todos?userId={employee_id}"
     response = requests.get(tode_endpoint)
-    
+
     if response.status_code != 200:
         print("Error: TODO list not found or API request failed.")
         return
-    
-    todo_list = response.json()
-    total_tasks = len(todo_list)
-    completed_tasks = [task for task in todo_list if task["completed"]]
 
-    print(f"Employee {employee_name} is done with tasks ({len(completed_tasks)}/{total_tasks}):")
-    for task in completed_tasks:
+    todo_list = response.json()
+    todos = len(todo_list)
+    finished = [task for task in todo_list if task["completed"]]
+
+    print(f"Employee {name} is done with tasks({len(finished)}/{todos}):")
+    for task in finished:
         print(f"\t{task['title']}")
+
+
 if len(sys.argv) != 2:
     print("Usage: python script.py employee_id")
 else:
