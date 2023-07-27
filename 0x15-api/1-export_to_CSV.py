@@ -6,7 +6,7 @@ import sys
 
 if __name__ == "__main__":
     employee_id = int(sys.argv[1])
-    base_url = "https://jsonplaceholder.typicode.com/users{}".format(employee_id)
+    base_url = "https://jsonplaceholder.typicode.com/users/{}".format(employee_id)
     user_info = requests.get(base_url).json()
     username = user_info.get("username")
     tasks_url = "https://jsonplaceholder.typicode.com/todos?userId={}".format(employee_id)
@@ -16,7 +16,6 @@ if __name__ == "__main__":
     # Generating CSV file
     csv_file = "{}.csv".format(employee_id)
     with open(csv_file, mode="w", newline="") as file:
-        writer = csv.writer(file)
-        writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
+        writer = csv.writer(file, quoting=csv.QUOTE_ALL)
         for task in completed_tasks:
             writer.writerow([employee_id, username, task["completed"], task["title"]])
