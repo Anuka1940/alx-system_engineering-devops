@@ -29,7 +29,7 @@ def get_employee_todo(employee_id):
 
     print(f"Employee {name} is done with tasks({len(finished)}/{todos}):")
     for task in finished:
-        print(f"\t{task['title']}")
+        print(f"\t {task['title']}")
 
 
 if len(sys.argv) != 2:
