@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """ Module for task 1"""
-
-
 import requests
 
 
 def top_ten(subreddit):
+    """ Prints the titles of the first 10 hot posts
+    listed for a given subreddit"""
     url = f"https://www.reddit.com/r/{subreddit}/hot.json"
     headers = {"User-Agent": "My Reddit API Client"}
     response = requests.get(url, headers=headers)
