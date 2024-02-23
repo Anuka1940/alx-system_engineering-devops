@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#This script displays list of all currently running process
+
+ps -ufax
