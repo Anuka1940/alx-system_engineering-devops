@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#This script displays
+#To infinity and beyond and uses sleep 2
+#Displays I am invincible!!!
+trap 'echo "I am invincible!!!" ' TERM
+
+while true
+do
+	echo "To infinity and beyond"
+	sleep 2
+done
