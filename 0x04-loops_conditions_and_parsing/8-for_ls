@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#This scrips displays content of current directory
+
+content_directory=`ls`
+
+for i in $content_directory 
+do
+	echo "$i" | cut -d'-' -f2
+done
