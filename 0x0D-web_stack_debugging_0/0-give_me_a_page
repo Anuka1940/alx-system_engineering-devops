@@ -1,3 +1,17 @@
 #!/usr/bin/env bash
-#fix Apache server
-service apache2 start
+# Step 1: Update the Dockerfile
+# Example Dockerfile:
+# FROM ubuntu:latest
+# RUN apt-get update && apt-get install -y apache2
+# COPY index.html /var/www/html/index.html
+# EXPOSE 80
+# CMD ["apache2ctl", "-D", "FOREGROUND"]
+
+# Step 2: Create an HTML file
+echo "Hello Holberton" > index.html
+
+# Step 3: Build the Docker image
+docker build -t holbertonschool/265-0 .
+
+# Step 4: Run the Docker container
+docker run -p 8080:80 -d -it holbertonschool/265-0
