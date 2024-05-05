@@ -15,8 +15,8 @@ frontend http_front
 backend http_back
 	mode http
 	balance roundrobin
-	server web-01 54.160.93.171:80 check
-	server web-02 54.159.27.183:80 check
+	server web-01 100.26.168.218:80 check
+	server web-02 35.175.134.173:80 check
 EOF
 
 #step 3: Update the hostname for for [STUDENT_ID]-web-01 and [STUDENT_ID]-web-02
