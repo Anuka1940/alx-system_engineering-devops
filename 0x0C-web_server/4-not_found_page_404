@@ -1,37 +1,20 @@
-#!/bin/env bash
-# Create a custom error page
-cat <<EOF > /usr/share/nginx/html/404.html
-<!DOCTYPE html>
-<html>
-<head>
-    <title>404 Not Found</title>
-</head>
-<body>
-    <h1>404 Not Found</h1>
-    <p>Ceci n'est pas une page</p>
-</body>
-</html>
-EOF
+#!/usr/bin/env bash
+#Configure nginx server to have a custom 404 page with the content Ceci n'est pas une page
+apt-get -y update
+apt-get -y install nginx
 
-# Configure nginx to use the custom error page for 404 errors
-echo 'server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
+#FireWall settings: Allow Nginx to serve on HTTP
+ufw allow 'Nginx HTTP'
 
-        root /usr/share/nginx/html;
-        index index.html index.htm index.nginx-debian.html;
+#Change default home page file
+echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html > /dev/null
 
-        server_name _;
+#Redirect redirect_me page
+sed -i '/server_name _;/a rewrite ^/redirect_me https://netnaija.com permanent;' /etc/nginx/sites-available/default
 
-        error_page 404 /404.html;
-        location = /404.html {
-                internal;
-        }
+#Custom 404 not found page
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/error_404.html > /dev/null
+sed -i '/server_name _;/a error_page 404 /error_404.html;' /etc/nginx/sites-available/default
 
-        location / {
-                return 404;
-        }
-}' > /etc/nginx/sites-available/default
-
-# Restart nginx
+#Restart nginx
 service nginx restart
