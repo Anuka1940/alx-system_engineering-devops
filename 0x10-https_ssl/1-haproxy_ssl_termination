@@ -41,6 +41,7 @@ defaults
 frontend www-http
          bind *:80
          reqadd X-Forwarded-Proto:\ http
+         mode http
          default_backend www-backend
 
 frontend www-https
@@ -53,8 +54,8 @@ frontend www-https
 backend www-backend
         redirect scheme https if !{ ssl_fc }
         balance roundrobin
-        server 2154-web-01 54.160.93.171:80 check
-        server 2154-web-02 54.159.27.183:80 check
+        server 183511-web-01 100.26.168.218:80 check
+        server 183511-web-02 35.175.134.173:80 check
 
 backend letsencrypt-backend
         server letsencrypt 127.0.0.1:54321
