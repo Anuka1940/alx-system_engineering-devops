@@ -1,16 +1,39 @@
 #!/usr/bin/env bash
-#!/bin/bash
 
-# Install Nginx
+# Update package lists and install Nginx
 apt-get update
 apt-get install -y nginx
 
-# Define the custom HTTP header value
-custom_header_value=$(hostname)
+# Allow HTTP traffic
+ufw allow 'Nginx HTTP'
 
-# Configure Nginx to include the custom HTTP header
-echo "add_header X-Served-By \"$custom_header_value\";" >> /etc/nginx/nginx.conf
+# Create HTML directory and files
+mkdir -p /var/www/html
+echo "Hello World" > /var/www/html/index.html
+echo "Ceci n'est pas une page" > /var/www/html/404.html
 
-# Restart Nginx to apply the changes
-sudo service  restart nginx
+# Configure Nginx
+cat <<EOF > /etc/nginx/sites-available/default
+server {
+    root /var/www/html/;
+    index index.html index.htm;
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    add_header X-Served-By "\$HOSTNAME";
+
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+
+    error_page 404 /404.html;
+    location = /404.html {
+        root /var/www/html;
+        internal;
+    }
+}
+EOF
+
+# Restart Nginx
+service nginx restart
 
