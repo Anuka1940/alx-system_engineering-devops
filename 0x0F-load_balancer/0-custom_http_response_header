@@ -1,39 +1,27 @@
 #!/usr/bin/env bash
+#configure a new ubuntu server
 
-# Update package lists and install Nginx
-apt-get update
-apt-get install -y nginx
+#update server packeges
+apt-get -y update
 
-# Allow HTTP traffic
+#install ngix on server
+apt-get -y install nginx
+
+#allow HTTP request
 ufw allow 'Nginx HTTP'
 
-# Create HTML directory and files
-mkdir -p /var/www/html
-echo "Hello World" > /var/www/html/index.html
-echo "Ceci n'est pas une page" > /var/www/html/404.html
+#Make default request to server display Hello World
+echo "Hello World" | sudo tee /var/www/html/index.nginx-debian.html > /dev/null
 
-# Configure Nginx
-cat <<EOF > /etc/nginx/sites-available/default
-server {
-    root /var/www/html/;
-    index index.html index.htm;
-    listen 80 default_server;
-    listen [::]:80 default_server;
+#Redirect redirect_me page to another page
+sed -i '/server_name _;/a rewrite ^/redirect_me https://netnaija.com permanent;' /etc/nginx/sites-available/default
 
-    add_header X-Served-By "\$HOSTNAME";
+#404 no page found should print Ceci n'est pas une page
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/error_404.html > /dev/null
+sed -i '/server_name _;/a error_page 404 /error_404.html;' /etc/nginx/sites-available/default
 
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
+#add header file to response header having the hostname
+sed -i '/server_name _;/a add_header X-Served-By $hostname;' /etc/nginx/sites-available/default
 
-    error_page 404 /404.html;
-    location = /404.html {
-        root /var/www/html;
-        internal;
-    }
-}
-EOF
-
-# Restart Nginx
+#restart nginx
 service nginx restart
-
