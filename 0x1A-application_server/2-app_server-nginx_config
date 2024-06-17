@@ -1,0 +1,23 @@
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        server_name web-01.lateef.tech;
+        index index.html;
+        add_header X-Served-By $hostname;
+
+        location / {
+                proxy_pass http://localhost:5000;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+        }
+        location /hbnb_static/ {
+                alias /data/web_static/current/;
+                try_files $uri $uri/ =404;
+        }
+
+        rewrite ^/redirect_me https://netnaija.com;
+        error_page 404 /error_404.html;
+}
