@@ -1,23 +1,40 @@
 server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
+    listen 80 default_server;
+    listen [::]:80 default_server;
 
-        server_name web-01.lateef.tech;
-        index index.html;
-        add_header X-Served-By $hostname;
+    server_name _;  # Catch-all server block
 
-        location / {
-                proxy_pass http://localhost:5000;
-                proxy_set_header Host $host;
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                proxy_set_header X-Forwarded-Proto $scheme;
-        }
-        location /hbnb_static/ {
-                alias /data/web_static/current/;
-                try_files $uri $uri/ =404;
-        }
+    root /var/www/html;
 
-        rewrite ^/redirect_me https://netnaija.com;
-        error_page 404 /error_404.html;
+    # Add index.php to the list if you are using PHP
+    index index.html index.htm index.nginx-debian.html;
+
+    # 0x1A-application_server - 2-app_server-nginx_config
+    location = /airbnb-onepage/ {
+        proxy_pass http://0.0.0.0:5000;  # Corrected proxy_pass
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # 404 Page:
+    error_page 404 /custom_404.html;
+    location = /custom_404.html {
+        root /usr/share/nginx/html;
+        internal;
+    }
+
+    # Header:
+    add_header X-Served-By "183511-web-01";
+
+    # Rewrite rule for redirection
+    rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
+
+    location / {
+        # First attempt to serve request as file, then
+        # as directory, then fall back to displaying a 404.
+        try_files $uri $uri/ =404;
+    }
 }
+
